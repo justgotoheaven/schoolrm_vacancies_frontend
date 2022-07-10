@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-9">
           <LoadSpinner v-if="loader"></LoadSpinner>
-          <VacanciesList ref="vacancies" @vac_data_loaded="vac_data_loaded"></VacanciesList>
+          <VacanciesList v-else ref="vacancies" @vac_data_loaded="vac_data_loaded"></VacanciesList>
         </div>
       </div>
     </div>
