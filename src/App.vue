@@ -9,18 +9,16 @@
         <div class="col-md-3">
           <div class="select-city">
             <p class="h5">Выберите район:</p>
-            <ChooseCity @changed_city='changed_city'></ChooseCity>
+            <ChooseCity @changed_city='changed_city'></ChooseCity>  
           </div>
           <div class="select-school">
-            <p class="h5">Выберите школу:</p>
             <ChooseSchool ref="school_select" @school_choosed="school_choosed"></ChooseSchool>
           </div>
           <button v-if="choosed_school" class="btn btn-outline-success" style="width: 100%"
             v-on:click="get_vac_data">Найти вакансии</button>
         </div>
         <div class="col-md-9">
-          <LoadSpinner v-if="loader"></LoadSpinner>
-          <VacanciesList v-else ref="vacancies" @vac_data_loaded="vac_data_loaded"></VacanciesList>
+          <VacanciesList :key="choosed_school" ref="vacancies"></VacanciesList>
         </div>
       </div>
     </div>
@@ -32,7 +30,6 @@
 import ChooseCity from './components/ChooseCity.vue'
 import ChooseSchool from './components/ChooseSchool.vue'
 import VacanciesList from './components/VacanciesList.vue'
-import LoadSpinner from "./components/LoadSpinner.vue"
 
 export default {
   name: 'App',
@@ -40,14 +37,11 @@ export default {
     ChooseCity,
     ChooseSchool,
     VacanciesList,
-    LoadSpinner,
   },
   data() {
     return {
       choosed_city: undefined,
       choosed_school: undefined,
-      find_button: false,
-      loader: false,
     }
   },
   methods: {
@@ -60,12 +54,8 @@ export default {
       this.choosed_school = data.choosed_school
     },
     get_vac_data() {
-      this.loader = true; 
       this.$refs.vacancies.get_all_data(this.choosed_school)
     },
-    vac_data_loaded() {
-      this.loader = false;
-    }
   }
 }
 </script>

@@ -1,7 +1,10 @@
 <template>
-    <select class="form-select" v-model="choosed_school" v-on:change="change_school">
-        <option v-for="school in schools" :key="school.domain" :value="school.domain">{{ school.name }}</option>
-    </select>
+<div v-if="sc_list_loaded">
+<p class="h5">Выберите школу:</p>
+<select class="form-select" v-model="choosed_school" v-on:change="change_school">
+    <option v-for="school in schools" :key="school.domain" :value="school.domain">{{ school.name }}</option>
+</select>
+</div>
 </template>
 
 <script>
@@ -14,6 +17,7 @@ export default {
         return {
             schools: undefined,
             choosed_school: null,
+            sc_list_loaded: false,
         }
     },
     methods: {
@@ -21,11 +25,13 @@ export default {
             this.$emit('school_choosed', { choosed_school: this.choosed_school })
         },
         get_city_schools(city_code) {
-            axios.get(API_URL + 'schools/get_all', { params: { city: city_code } }).then(response => (this.schools = response.data));
+            this.sc_list_loaded = false;
+            axios.get(API_URL + 'schools/get_all', { params: { city: city_code } }).
+                then(response => { this.schools = response.data; this.sc_list_loaded = true; });
         }
     }
 }
 </script>
 
-<style>
+<style scoped>
 </style>

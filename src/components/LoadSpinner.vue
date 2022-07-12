@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            Загрузка...
+            {{ msg }}
         </div>
     </div>
 </template>
@@ -14,6 +14,9 @@
 <script>
 
 export default {
-    name: "LoadSpinner"
+    name: "LoadSpinner",
+    props: {
+        msg: String
+    }
 }
 </script>
